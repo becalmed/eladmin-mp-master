@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="me.zhengjie.modules.system.mapper.SysActivityMapper">
+    <resultMap id="BaseResultMap" type="me.zhengjie.modules.system.domain.SysActivity">
+        <id column="activity_id" property="activityId"/>
+        <result column="activity_name" property="activityName"/>
+        <result column="activity_progress" property="activityProgress"/>
+        <result column="create_by" property="createBy"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="start_time" property="startTime"/>
+        <result column="start_hour" property="startHour"/>
+        <result column="end_time" property="endTime"/>
+        <result column="end_hour" property="endHour"/>
+        <result column="participants" property="participants"/>
+        <result column="resource_requirements" property="resourceRequirements"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        activity_id, activity_name, activity_progress, create_by, update_by, create_time, update_time, start_time, start_hour, end_time, end_hour, participants, resource_requirements
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_activity
+        <where>
+            <if test="criteria.activityName != null">
+                and activity_name like concat('%',#{criteria.activityName},'%')
+            </if>
+            <if test="criteria.activityProgress != null">
+                and activity_progress = #{criteria.activityProgress}
+            </if>
+            <if test="criteria.createBy != null">
+                and create_by = #{criteria.createBy}
+            </if>
+            <if test="criteria.updateBy != null">
+                and update_by = #{criteria.updateBy}
+            </if>
+            <if test="criteria.participants != null">
+                and participants = #{criteria.participants}
+            </if>
+        </where>
+        order by activity_id desc
+    </select>
+</mapper>
